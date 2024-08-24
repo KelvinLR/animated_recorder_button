@@ -60,7 +60,7 @@ class _AnimatedWidgetsTestsState extends State<AnimatedWidgetsTests>
     //reverseDuration: const Duration(milliseconds: 600),
   );
 
-  bool isHolded = true;
+  bool isHolded = false;
 
   @override
   void initState() {
@@ -82,20 +82,26 @@ class _AnimatedWidgetsTestsState extends State<AnimatedWidgetsTests>
               height: 120,
               child: Material(
                 elevation: 2,
-                shape: CircleBorder(),
+                shape: const CircleBorder(),
                 color: Colors.blue,
                 child: InkWell(
                   borderRadius: BorderRadius.circular(100),
                   radius: 100,
                   onTapDown: (details) {
-                    _controller.repeat(reverse: true);
                     setState(() {
+                      _controller.repeat(reverse: true);
                       isHolded = true;
                     });
                   },
-                  onTapUp: (details) {
-                    _controller.reset();
+                  onTapCancel: () {
                     setState(() {
+                      _controller.reset();
+                      isHolded = false;
+                    });
+                  },
+                  onTapUp: (details) {
+                    setState(() {
+                      _controller.reset();
                       isHolded = false;
                     });
                   },
